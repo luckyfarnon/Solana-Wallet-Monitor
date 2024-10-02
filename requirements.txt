@@ -1,0 +1,6 @@
+solana
+jupiter
+websockets
+dotenv
+sqlalchemy
+pytest
