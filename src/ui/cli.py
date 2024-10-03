@@ -1,27 +1,18 @@
-# cli.py
-
 import argparse
-from core.main_wallet_monitor import main_wallet_monitor_loop
-from core.sub_wallet_manager import SubWalletManager
-from core.token_detector import TokenDetector
-from core.jupiter_trader import JupiterTrader
-from data.data_manager import DataManager
-from utils.logging_utils import logger
+from src.data.data_manager import DataManager
+from src.utils.logging_utils import setup_logging
 
 def main():
+    setup_logging()
     parser = argparse.ArgumentParser(description='Solana Wallet Monitor and Trader CLI')
-    parser.add_argument('--start', action='store_true', help='Start the wallet monitor')
+    parser.add_argument('--token', type=str, required=True, help='Token address to monitor')
+    parser.add_argument('--amount', type=float, required=True, help='Amount of token to trade')
     args = parser.parse_args()
 
-    if args.start:
-        logger.info('Starting Solana Wallet Monitor')
-        # Initialize components
-        data_manager = DataManager('data/solana_wallet_monitor.db')
-        sub_wallet_manager = SubWalletManager()
-        token_detector = TokenDetector(sub_wallet_manager)
-        jupiter_trader = JupiterTrader()
-        # Start the main wallet monitor loop
-        main_wallet_monitor_loop()
+    data_manager = DataManager(db_file='trades.db')  # Specify your database file
+    data_manager.add_trade(args.token, args.amount)
+    print(f'Trade added: {args.token} - {args.amount}')
+    data_manager.close()
 
 if __name__ == '__main__':
     main()

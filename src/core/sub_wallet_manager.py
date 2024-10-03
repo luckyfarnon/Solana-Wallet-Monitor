@@ -1,31 +1,26 @@
-# sub_wallet_manager.py
-
-from utils.logging_utils import logger
-
 class SubWalletManager:
     def __init__(self):
         self.active_wallets = {}
+        self.inactive_wallets = {}
 
     def add_wallet(self, wallet_address):
         if wallet_address not in self.active_wallets:
-            self.active_wallets[wallet_address] = {'balance': 0}
-            logger.info(f'Added new wallet: {wallet_address}')
-        else:
-            logger.info(f'Wallet already exists: {wallet_address}')
+            self.active_wallets[wallet_address] = 0  # Initialize balance to 0
+            print(f'Wallet added: {wallet_address}')
 
     def remove_wallet(self, wallet_address):
         if wallet_address in self.active_wallets:
             del self.active_wallets[wallet_address]
-            logger.info(f'Removed wallet: {wallet_address}')
-        else:
-            logger.warning(f'Attempted to remove non-existing wallet: {wallet_address}')
+            self.inactive_wallets[wallet_address] = 0  # Track removed wallets
+            print(f'Wallet removed: {wallet_address}')
 
-    def update_balance(self, wallet_address, balance):
+    def update_balance(self, wallet_address, amount):
         if wallet_address in self.active_wallets:
-            self.active_wallets[wallet_address]['balance'] = balance
-            logger.info(f'Updated balance for {wallet_address}: {balance}')
-        else:
-            logger.warning(f'Attempted to update balance for non-existing wallet: {wallet_address}')
+            self.active_wallets[wallet_address] += amount
+            print(f'Balance updated for {wallet_address}: {self.active_wallets[wallet_address]}')
 
     def get_active_wallets(self):
-        return self.active_wallets
+        return self.active_wallets.keys()
+
+    def get_inactive_wallets(self):
+        return self.inactive_wallets.keys()

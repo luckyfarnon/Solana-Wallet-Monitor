@@ -2,7 +2,7 @@
 
 # Add necessary dependencies here
 solana
-jupiter
+# jupiter  # Commented out as it's not found
 websockets
 asyncio
 requests
