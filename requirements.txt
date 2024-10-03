@@ -1,6 +1,9 @@
+# Solana Wallet Monitor and Trader Dependencies
+
+# Add necessary dependencies here
 solana
 jupiter
 websockets
-dotenv
-sqlalchemy
-pytest
+asyncio
+requests
+
